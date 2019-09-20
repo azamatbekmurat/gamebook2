@@ -1,11 +1,18 @@
-import { delay } from "redux-saga";
-import { takeEvery, put } from "redux-saga/effects";
+import { call, delay, put, takeLatest } from "redux-saga/effects";
 
-function* signInAsync() {
-  yield delay(4000);
-  yield put({ type: "LOGIN_SUCCES_ASYNC", value: 1 });
+import { signIn } from "./../services/authService";
+
+//import { signIn } from "./../store/actions/singInActions";
+
+function* signInAsync(creds) {
+  yield call(signIn, creds);
+  yield delay(2000);
+  yield put({
+    type: "LOGIN_SUCCESS_ASYNC",
+    payload: creds
+  });
 }
 
-export function* watchAgeUp() {
-  yield takeEvery("LOGIN_SUCCESS", signInAsync);
+export function* watchSignIn() {
+  yield takeLatest("LOGIN_SUCCESS", signInAsync);
 }

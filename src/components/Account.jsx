@@ -5,9 +5,8 @@ import Feeds from "./Feeds";
 import Dashboard from "./Dashboard";
 import Videos from "./Videos";
 
-const Account = () => {
-  //console.log("props in account", props.username);
-
+const Account = props => {
+  console.log("account props", props);
   return (
     <div className="row">
       <div className="col-sm-3">

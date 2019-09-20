@@ -3,15 +3,35 @@ import { Redirect } from "react-router-dom";
 import Account from "../components/Account";
 import { Player } from "video-react";
 import { connect } from "react-redux";
+//import axios from "axios";
+import { fetchUsers } from "../store/actions/usersActions";
+import { signInSuccess } from "./../store/actions/singInActions";
+import { signIn } from "./../services/authService";
 
-import { setName } from "../store/actions/userActions";
+//import { setName } from "../store/actions/userActions";
+
+const loginStyle = {
+  margin: "0 0 50% 0"
+};
 
 class Login extends Component {
   state = {
+    //users: [],
     username: "",
-    password: ""
-    //authError: false
+    password: "",
+    authError: false
   };
+
+  // async componentDidMount() {
+  //   this.props.fetchUsers();
+  //   //console.log("did mount props", this.props);
+
+  //   // const { data: users } = await axios.get(
+  //   //   "https://jsonplaceholder.typicode.com/users"
+  //   // );
+
+  //   // this.setState({ users });
+  // }
 
   handleChange = e => {
     this.setState({
@@ -22,22 +42,33 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.setName(this.state);
+    // this.props.signIn(this.state);
+    signIn(this.state);
+    this.props.signInSuccess(this.state.username);
+
+    // const users = this.props.users;
+    // const username = this.props.username;
+    //const password = this.state.password;
+
+    // if (users[username] === username) {
+    //   this.setState({ authError: true });
+    // } else {
+    //   alert("Wrong username");
+    // }
   };
 
   render() {
-    const { authError } = this.props;
-    console.log("login props", this.props);
+    const { authError, username } = this.props;
 
     if (authError) {
       return (
         <Redirect to={"/account"}>
-          <Account name={this.props} />
+          <Account nameEmail={username} />
         </Redirect>
       );
     }
     return (
-      <div>
+      <div style={loginStyle}>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
@@ -68,15 +99,29 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
+    //users: state.users,
     username: state.username,
     authError: state.authError
   };
 };
 
+// const mapStateToProps = state => {
+//   return {
+//     username: state.username,
+//     authError: state.authError
+//   };
+// };
+
 const mapDispatchToProps = dispatch => {
   return {
-    setName: creds => {
-      dispatch(setName(creds));
+    // fetchUsers: () => {
+    //   dispatch(fetchUsers());
+    // },
+    // signIn: creds => {
+    //   dispatch(signIn(creds));
+    // },
+    signInSuccess: username => {
+      dispatch(signInSuccess(username));
     }
   };
 };
