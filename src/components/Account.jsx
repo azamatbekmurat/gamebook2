@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Bio from "./Bio";
 import Activity from "./Activity";
 import Feeds from "./Feeds";

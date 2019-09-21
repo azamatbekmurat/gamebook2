@@ -7,7 +7,7 @@ const signInReducer = (state = initState, action) => {
   // eslint-disable-next-line default-case
   switch (action.type) {
     case "LOGIN_SUCCESS_ASYNC":
-      //console.log("signIn at reducer", action);
+      console.log("signIn at reducer", action);
       state = {
         ...state,
         authError: true,
